@@ -1,0 +1,24 @@
+VIDEOS='/home/loukis/Downloads/'
+MUSICS='/home/loukis/Downloads/'
+url=$1
+
+echo "Choose an option for $url :"
+echo "y) download youtube video"
+echo "a) download youtube video and convert it to mp3"
+
+read CHOICE
+case $CHOICE in
+    y)
+        cd $VIDEOS
+        pytube $url
+	;;
+    a)
+        cd $MUSICS
+        pytube $url
+        file=$(ls -Art | tail -n 1)
+        ffmpeg -i $file "${file%.mp4}.mp3"
+        rm $file
+	;;
+    *) echo "invalid option" ;;
+esac
+
