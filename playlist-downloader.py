@@ -38,10 +38,10 @@ for i, video in enumerate(playlist.videos, 1):
                     "-i", f"{title}.mp4",
                     "-i", thumbnail,
                     "-map", "0", "-map", "1",
-                    "-metadata", f"title='{title}'",
-                    "-metadata", f"artist='{artist}'",
-                    "-metadata", f"album='{album}'",
-                    "-metadata", f"track='{i}/{album_length}'",
+                    "-metadata", f"title={title}",
+                    "-metadata", f"artist={artist}",
+                    "-metadata", f"album={album}",
+                    "-metadata", f"track={i}/{album_length}",
                     f"{title}.mp3"
                 ])
                 run(["rm", f"{title}.mp4"])
