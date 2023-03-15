@@ -17,19 +17,20 @@ if not os.path.exists(album):
 os.chdir(album)
 
 thumbnail = f"{album}.jpg"
-with open(thumbnail, "wb") as f: 
-    f.write(requests.get(videos[0].thumbnail_url).content)
-run(["convert", thumbnail, "-crop", "360x360+140+60", thumbnail])
+if  not os.path.exists(thumbnail):
+    with open(thumbnail, "wb") as f: 
+        f.write(requests.get(videos[0].thumbnail_url).content)
+    run(["convert", thumbnail, "-crop", "360x360+140+60", thumbnail])
 
 album_length = len(videos)
 for i, video in enumerate(playlist.videos, 1):
-    if not os.path.exists(f"{video.title}.mp3"):
-        for _ in range(3):
-            try:
+    for _ in range(3):
+        try:
+            title = video.title.replace(":", "")
+            if not os.path.exists(f"{title}.mp3"):
                 if video.age_restricted and not video.use_oauth:
                     video.use_oauth = True
 
-                title = video.title
                 print(title)
                 video.streams.get_audio_only().download(filename=f"{title}.mp4")
                 run([
@@ -44,6 +45,6 @@ for i, video in enumerate(playlist.videos, 1):
                     f"{title}.mp3"
                 ])
                 run(["rm", f"{title}.mp4"])
-                break
-            except exceptions.PytubeError as err:
-                print(str(err))
+            break
+        except exceptions.PytubeError as err:
+            print(str(err))
