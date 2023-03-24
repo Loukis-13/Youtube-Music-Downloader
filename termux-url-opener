@@ -1,24 +1,28 @@
-VIDEOS='/home/loukis/Downloads/'
-MUSICS='/home/loukis/Downloads/'
+VIDEOS='/storage/emulated/0/Youtube/'
+MUSICS='/storage/emulated/0/Music/'
 url=$1
 
 echo "Choose an option for $url :"
-echo "y) download youtube video"
-echo "a) download youtube video and convert it to mp3"
+echo "1) download youtube video"
+echo "2) download youtube video and convert it to mp3"
+echo "3) download youtube playlist and convert all to mp3"
 
 read CHOICE
 case $CHOICE in
-    y)
+    1)
         cd $VIDEOS
         pytube $url
-	;;
-    a)
+        ;;
+    2)
         cd $MUSICS
         pytube $url
         file=$(ls -Art | tail -n 1)
         ffmpeg -i $file "${file%.mp4}.mp3"
         rm $file
-	;;
+        ;;
+    3)
+        cd $MUSICS
+        python playlist-downloader.py "$url"
+        ;;
     *) echo "invalid option" ;;
 esac
-
