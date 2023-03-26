@@ -1,5 +1,5 @@
-VIDEOS='/storage/emulated/0/Youtube/'
-MUSICS='/storage/emulated/0/Music/'
+VIDEOS='~/storage/shared/Youtube/'
+MUSICS='~/storage/Music/'
 url=$1
 
 echo "Choose an option for $url :"
