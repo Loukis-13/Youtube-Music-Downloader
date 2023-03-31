@@ -5,13 +5,31 @@ import os
 import requests
 from subprocess import run
 from pytube import Playlist
+import argparse
 
 
-playlist = Playlist(sys.argv[1])
+def cover_path(path):
+    if os.path.isfile(path):
+        return os.path.abspath(path)
+    else:
+        raise FileNotFoundError()
+ 
+parser = argparse.ArgumentParser(
+    prog="YouTube Music Downloader",
+    description="Script to download and tag musics from YouTube Music",
+    epilog="Thanks to Pytube"
+)
+parser.add_argument("-a", "--artist", help="name of the artist")
+parser.add_argument("-b", "--album", help="name of the album")
+parser.add_argument("-c", "--cover", type=cover_path, help="album cover")
+parser.add_argument("playlist", help="playlist URL")
+args = parser.parse_args()
+
+playlist = Playlist(args.playlist)
 videos = [*playlist.videos]
-album = playlist.title.removeprefix("Album - ")
-artist = videos[0].author.removesuffix(" - Topic")
-cover = f"{album}.jpg"
+album = args.album or playlist.title.removeprefix("Album - ")
+artist = args.artist or videos[0].author.removesuffix(" - Topic")
+cover = args.cover or f"{album}.jpg"
 album_length = len(videos)
 
 if not os.path.exists(album):
