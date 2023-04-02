@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
 import os
 import requests
 from subprocess import run
@@ -22,6 +21,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-a", "--artist", help="name of the artist")
 parser.add_argument("-b", "--album", help="name of the album")
 parser.add_argument("-c", "--cover", type=cover_path, help="album cover")
+parser.add_argument("-t", "--title", action="store_true", help="prompt to change the title of each music")
 parser.add_argument("playlist", help="playlist URL")
 args = parser.parse_args()
 
@@ -47,6 +47,10 @@ for i, video in enumerate(playlist.videos, 1):
     url = file.url
     default_filename = f"{file.default_filename.removesuffix('.mp4')}.mp3"
 
+    if args.name:
+        print(f"Default title: {title}")
+        title = input("Enter new title (leave empty to not change):") or title
+
     if not os.path.exists(default_filename):
         print(f"[{i}/{album_length}] {title}")
 
@@ -65,3 +69,4 @@ for i, video in enumerate(playlist.videos, 1):
             "-metadata", f"track={i}/{album_length}",
             default_filename
         ])
+
