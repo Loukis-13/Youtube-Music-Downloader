@@ -41,21 +41,18 @@ if not os.path.exists(cover):
         f.write(requests.get(videos[0].thumbnail_url).content)
     run(["convert", cover, "-crop", "360x360+140+60", cover])
 
-for i, video in enumerate(playlist.videos, 1):
+for i, video in enumerate(videos, 1):
     file = video.streams.get_audio_only()
     title = file.title
     url = file.url
-    default_filename = f"{file.default_filename.removesuffix('.mp4')}.mp3"
+    default_filename = file.default_filename.replace(".mp4", ".mp3")
 
-    if args.name:
+    if args.title:
         print(f"Default title: {title}")
         title = input("Enter new title (leave empty to not change):") or title
 
     if not os.path.exists(default_filename):
         print(f"[{i}/{album_length}] {title}")
-
-        if video.age_restricted and not video.use_oauth:
-            video.use_oauth = True
 
         run([
             "ffmpeg",
@@ -69,4 +66,3 @@ for i, video in enumerate(playlist.videos, 1):
             "-metadata", f"track={i}/{album_length}",
             default_filename
         ])
-
