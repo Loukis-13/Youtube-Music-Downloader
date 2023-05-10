@@ -39,7 +39,6 @@ os.chdir(album)
 if not os.path.exists(cover):
     with open(cover, "wb") as f:
         f.write(requests.get(videos[0].thumbnail_url).content)
-    run(["convert", cover, "-crop", "360x360+140+60", cover])
 
 for i, video in enumerate(videos, 1):
     file = video.streams.get_audio_only()
