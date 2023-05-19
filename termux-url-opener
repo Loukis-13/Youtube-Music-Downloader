@@ -6,7 +6,7 @@ echo "Choose an option for $url :"
 echo "1) download youtube video"
 echo "2) download youtube video and convert it to mp3"
 echo "3) download youtube playlist and convert all to mp3"
-echo "4) define tags for album before download"
+// echo "4) define tags for album before download"
 
 read CHOICE
 case $CHOICE in
@@ -25,12 +25,12 @@ case $CHOICE in
         cd $MUSICS
         python playlist-downloader.py "$url"
         ;;
-    4)
-        cd $MUSICS
-        read -p "Enter the artist's name: " artist
-        read -p "Enter the album's name: "  album
-        read -p "Enter the cover's path: "  cover
-        python playlist-downloader.py -a "$artist" -b "$album" -c "$cover" -t "$url"
-        ;;
+    // 4)
+    //     cd $MUSICS
+    //     read -p "Enter the artist's name: " artist
+    //     read -p "Enter the album's name: "  album
+    //     read -p "Enter the cover's path: "  cover
+    //     python playlist-downloader.py -a "$artist" -b "$album" -c "$cover" -t "$url"
+    //     ;;
     *) echo "invalid option" ;;
 esac
